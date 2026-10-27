@@ -1,69 +1,121 @@
-# 🛡️ ChurnSense: Predictive Analytics & Retention Platform
+# 🛡️ ChurnSense AI: Predictive Analytics & Retention Intelligence Platform
 
-**ChurnSense** is a comprehensive data science project focused on identifying customer attrition patterns and automating retention strategies. Developed as a high-performance analytical tool, it integrates traditional machine learning with advanced LLM-based reasoning to provide actionable business intelligence.
-
----
+**ChurnSense AI** is an enterprise customer attrition intelligence platform that couples ensemble machine learning (XGBoost, Random Forest, Logistic Regression) with advanced LLM reasoning (Google Gemini) to identify high-risk customer accounts, diagnose behavioral drivers, and automate bilingual retention maneuvers in real time.
 
 ## 🏗️ Technical Architecture
 
-The platform is built with a decoupled architecture focusing on scalability and predictive precision.
+* **Backend Engine**: Asynchronous FastAPI service running on Python 3.11 with high-throughput inference endpoints and automatic OpenAPI/Swagger documentation.
+* **Data Science Core**: Stacked ensemble classification aggregating calibrated probabilities from XGBoost, Random Forest, and regularized Logistic Regression with 5-fold cross-validation.
+* **Explainability Layer**: Dynamic feature attribution scoring factors like contract vulnerability, technical friction index, and tenure stability.
+* **Intelligence Layer**: Google Gemini integration for automated strategic audits, risk driver breakdowns, and bilingual (English & Hindi) retention playbooks.
+* **Data Layer**: MongoDB (Atlas Cloud / Local) for persistent historical audit logs and customer records via async Motor drivers.
+* **Frontend Interface**: Reactive, single-page dashboard built with React 19, TypeScript, Vite, and Tailwind CSS.
 
-- **Backend Engine**: FastAPI (Python 3.10+) utilizing asynchronous processing for real-time inference.
-- **Data Science Core**: Implementation of Ensemble Learning (XGBoost, Random Forest, Logistic Regression) with optimized hyperparameters.
-- **Frontend Interface**: High-fidelity React application with Tailwind CSS for professional data visualization.
-- **Intelligence Layer**: Integration of Google Gemini 3.0 for generating local-language retention strategies and strategic audits.
-- **Data Layer**: MongoDB for flexible persistence of customer history and risk logs.
+## 🚀 Live Cloud Deployment
 
----
+| Service | Component | URL |
+| :--- | :--- | :--- |
+| **Frontend UI** | React Static Site | `https://churnsense-ui.onrender.com` |
+| **Backend API** | FastAPI Web Service | `https://churnsense-ai-3khl.onrender.com` |
+| **API Docs (Swagger UI)** | Interactive Documentation | `https://churnsense-ai-3khl.onrender.com/docs` |
 
-## ✨ Project Capabilities
+## ⚙️ Environment Variables
 
-- **Ensemble Inference**: A stacked model architecture that aggregates weights from multiple classifiers to ensure high AUC-ROC scores.
-- **Statistical Explainability**: Direct feature attribution to show which variables (e.g., tenure, contract type) are driving specific risk scores.
-- **Cross-Validation Reporting**: Built-in 5-fold CV reporting for model stability assessment.
-- **Multi-lingual Insights**: Automatic generation of English and Hindi strategy reports for operational staff.
-- **Live Intelligence Hub**: Voice-enabled querying for rapid churn-risk consultation.
+Create a `.env` file in the project root (or configure them in your hosting provider):
 
----
-
-## 🚀 Deployment & Installation
-
-### 1. Prerequisites
-- Python 3.10+
-- Node.js & NPM
-- MongoDB Cluster (Atlas or Local)
-
-### 2. Environment Configuration
-Create a `.env` file in the project root:
 ```env
-API_KEY=your_secure_api_key
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_unique_jwt_secret
+# Google Gemini API
+API_KEY=AIzaSyYourGeminiApiKeyHere
+GEMINI_API_KEY=AIzaSyYourGeminiApiKeyHere
+
+# MongoDB Database Connection
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.xxxx.mongodb.net/churnsense_ai?retryWrites=true&w=majority
+
+# Security & JWT
+JWT_SECRET=your_32_character_jwt_secret_key
+
+# Python Path (for Backend Module Resolution)
+PYTHONPATH=.:backend
+
+# Optional SMTP Configuration (Defaults to console mock mode if omitted)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
 SMTP_USER=notifications@yourdomain.com
-SMTP_PASS=your_secure_password
+SMTP_PASS=your_email_app_password
 ```
 
-### 3. Backend Setup
-```bash
-# Setup virtual environment
-python -m venv venv
-source venv/bin/activate
+## 💻 Local Quickstart
 
-# Install requirements
+### Prerequisites
+
+* Python 3.11
+* Node.js (v18+) & NPM
+* Astral `uv` (recommended) or `pip`
+* MongoDB (Local instance or MongoDB Atlas cloud connection)
+
+### 1. Backend Setup (FastAPI)
+
+#### Using Astral `uv` (Fastest, All-in-One):
+
+```zsh
+# Create virtual environment and install dependencies in one command
+uv venv .venv --python 3.11 && source .venv/bin/activate && uv pip install -r requirements.txt
+
+# Start the API server
+export PYTHONPATH=".:backend"
+python -m uvicorn backend.main:app --port 8000 --reload
+```
+
+#### Using Standard `venv` & `pip`:
+
+```zsh
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 
-# Start the server
-uvicorn main:app --port 3000 --reload
+export PYTHONPATH=".:backend"
+python -m uvicorn backend.main:app --port 8000 --reload
 ```
 
-### 4. Interface Setup
-The frontend is integrated as an ES module system. Ensure your environment variables are accessible to the client-side execution.
+The API will be available at `http://localhost:8000`, with interactive Swagger UI at `http://localhost:8000/docs`.
 
----
+### 2. Frontend Setup (React & Vite)
 
-## 👨‍💻 Developer Information
-**Name:** Saurav Rajput  
-**Role:** Lead Data Engineer  
-**Project:** B.Tech Capstone Project in Applied Machine Learning  
+In a separate terminal window:
 
-[GitHub Repository](https://github.com/SAURAV6393/churnsense-ai.git) | [Project Report](https://github.com/SAURAV6393/ChurnSense/docs/report.pdf)
+```zsh
+# Install frontend packages
+npm install
+
+# Start development server
+npm run dev
+```
+
+Open `http://localhost:5173` in your browser to access the dashboard.
+
+### 3. Production Build
+
+To bundle the frontend for production:
+
+```zsh
+npm run build
+```
+
+Compiled static assets are generated in the `dist/` directory.
+
+## 📡 API Reference Overview
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/` | Service health status and pipeline verification |
+| `POST` | `/api/v1/auth/register` | Register new analyst account |
+| `POST` | `/api/v1/auth/verify-otp` | Verify OTP and issue JWT bearer token |
+| `GET` | `/api/v1/auth/me` | Fetch authenticated user profile |
+| `POST` | `/api/v1/analytics/predict` | Run stacked ensemble inference & LLM strategic audit |
+| `GET` | `/api/v1/analytics/history` | Retrieve historical customer risk logs |
+
+Full interactive schemas and payload testing are available via `/docs`.
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
